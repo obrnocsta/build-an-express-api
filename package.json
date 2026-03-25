@@ -1,0 +1,25 @@
+{
+  "name": "build-an-express-api",
+  "version": "1.0.0",
+  "description": "A dataset of the world’s most promising startups",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --watch server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/obrnocsta/build-an-express-api.git"
+  },
+  "keywords": [],
+  "author": "Bruno Costa",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/obrnocsta/build-an-express-api/issues"
+  },
+  "homepage": "https://github.com/obrnocsta/build-an-express-api#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
