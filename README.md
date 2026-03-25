@@ -16,122 +16,110 @@ npm install
 npm start
 ```
 
-The server runs on `http://localhost:3000`
+The server runs on `http://localhost:8000`
 
 ## 📍 Project Structure
 
 ```
 build-an-express-api/
-├── server.js                      # Main server with Express setup
-├── package.json                   # Project metadata and dependencies
-├── controllers/                   # Request handlers and business logic
-│   └── itemController.js          # Controller for item operations
-├── routes/                        # API route definitions
-│   ├── index.js                   # Main routes file
-│   └── items.js                   # Item-specific routes
-├── data/
-│   └── items.json                 # Data storage (JSON file)
-└── middleware/
-    └── errorHandler.js            # Error handling middleware
+├── server.js                              # Main Express server setup
+├── package.json                           # Project metadata and dependencies
+├── routes/
+│   └── apiRoutes.js                       # API route definitions
+├── controllers/
+│   ├── filerByParamsController.js         # Handle path parameter filtering
+│   └── filerByQueryController.js          # Handle query parameter filtering
+└── data/
+    └── data.js                            # Dataset of world's most promising startups
 ```
+
+## 🌍 What This Project Does
+
+This API provides access to a curated dataset of **the world's most promising startups**. Users can browse, filter, and search through startup information using different query and path parameters. It's a great learning project that demonstrates real-world API patterns for data retrieval and filtering.
 
 ## 🔗 API Endpoints
 
-### Get All Items
+### Get All Startups
 
-**GET** `/api/items`
+**GET** `/api/startups`
 
-Returns all items stored in the database.
-
-**Query Parameters:**
-- `filter` - Filter items by specific criteria
-- `limit` - Limit the number of results
+Returns all startups in the dataset.
 
 **Response Example:**
 ```json
 [
   {
     "id": 1,
-    "name": "Item 1",
-    "description": "Description of item 1",
-    "created_at": "2026-03-25"
+    "name": "OpenAI",
+    "industry": "Artificial Intelligence",
+    "country": "United States",
+    "founded": 2015,
+    "funding": 1000000000
+  },
+  {
+    "id": 2,
+    "name": "Stripe",
+    "industry": "Fintech",
+    "country": "Ireland",
+    "founded": 2010,
+    "funding": 500000000
   }
 ]
 ```
 
-### Get Item by ID
+### Get Startup by ID (Path Parameters)
 
-**GET** `/api/items/:id`
+**GET** `/api/startups/:id`
 
-Returns a specific item by its ID.
+Retrieve a specific startup by its ID.
 
 **Path Parameters:**
-- `id` - The ID of the item
+- `id` - The unique identifier of the startup
 
-**Response Example:**
+**Example:** `GET /api/startups/1`
+
+**Response:**
 ```json
 {
   "id": 1,
-  "name": "Item 1",
-  "description": "Description of item 1",
-  "created_at": "2026-03-25"
+  "name": "OpenAI",
+  "industry": "Artificial Intelligence",
+  "country": "United States",
+  "founded": 2015,
+  "funding": 1000000000
 }
 ```
 
-### Create a New Item
+### Filter Startups by Query Parameters
 
-**POST** `/api/items`
+**GET** `/api/startups/filter`
 
-Submit a new item to the database.
+Filter startups using query parameters like industry, country, funding range, etc.
 
-**Request Body:**
-```json
-{
-  "name": "New Item",
-  "description": "Description of the new item"
-}
-```
+**Query Parameters:**
+- `industry` - Filter by industry
+- `country` - Filter by country
+- `minFunding` - Filter by minimum funding amount
+- `maxFunding` - Filter by maximum funding amount
 
-**Response:** 
-Returns the newly created item object with HTTP 201 status.
+**Examples:**
+- `GET /api/startups/filter?industry=Artificial%20Intelligence`
+- `GET /api/startups/filter?country=United%20States`
+- `GET /api/startups/filter?minFunding=100000000&maxFunding=500000000`
 
-### Update an Item
-
-**PUT** `/api/items/:id`
-
-Update an existing item.
-
-**Path Parameters:**
-- `id` - The ID of the item to update
-
-**Request Body:**
-```json
-{
-  "name": "Updated Item",
-  "description": "Updated description"
-}
-```
-
-### Delete an Item
-
-**DELETE** `/api/items/:id`
-
-Delete an item by ID.
-
-**Path Parameters:**
-- `id` - The ID of the item to delete
+**Response:** Returns array of startups matching the filter criteria
 
 ## 📚 What We Studied
 
 Throughout this project, you will learn:
 
-- **Creating a server** - Setting up an Express.js server to handle incoming requests
-- **Sending status codes** - Using appropriate HTTP status codes (200, 201, 400, 404, 500, etc.)
-- **Setting headers** - Customizing response headers like Content-Type and CORS headers
-- **Handling requests/responses** - Processing incoming requests and sending proper responses
-- **Filtering data** - Implementing query parameters to filter results
-- **Extracting path/query params** - Accessing dynamic values from URLs and query strings
-- **CORS** - Implementing Cross-Origin Resource Sharing to allow requests from different domains
+- **Creating a server** - Setting up an Express.js server with proper configuration
+- **Sending status codes** - Using appropriate HTTP status codes (200, 404, etc.)
+- **Setting headers** - Configuring response headers and enabling CORS
+- **Handling requests/responses** - Processing incoming requests and sending JSON responses
+- **Filtering data** - Implementing filtering logic based on query parameters
+- **Extracting path/query params** - Accessing dynamic values from URLs (`/startups/:id`) and query strings (`?industry=...`)
+- **CORS** - Enabling Cross-Origin Resource Sharing to allow requests from different domains
 
 ## 🎯 Stretch Goals
 
@@ -139,89 +127,98 @@ As you progress, aim to achieve these goals:
 
 - [x] Create basic API structure with Express.js
 - [x] Set up routes and controllers
-- [ ] Handle POST requests (ignore authentication for now)
-- [ ] Add better filtering with multiple query parameters
+- [ ] Handle POST requests to add new startups (ignore authentication for now)
+- [ ] Add better filtering with multiple combined parameters
 - [ ] Add input validation and error handling
-- [ ] Make this real! - Deploy the API to a cloud service
-- [ ] Connect to a real database (MongoDB, PostgreSQL, etc.)
-- [ ] Implement pagination
+- [ ] Implement pagination for large datasets
+- [ ] Add sorting capabilities (by funding, founding date, etc.)
+- [ ] Persist data to a real database (MongoDB, PostgreSQL)
 - [ ] Add authentication/authorization
-- [ ] Write unit tests
+- [ ] Write unit and integration tests
 
 ## 🛠️ Core Technologies
 
 - **Node.js** - JavaScript runtime for the server
-- **Express.js** - Web framework for building APIs
-- **JavaScript (ES6+)** - Modern JavaScript syntax
-- **HTTP Module** - Native Node.js HTTP handling
-- **File System API** - `node:fs` for data persistence
+- **Express.js** - Web framework for building REST APIs
+- **JavaScript (ES6+ Modules)** - Modern JavaScript with ES modules
+- **CORS** - Cross-Origin Resource Sharing middleware
 
 ## 📦 Dependencies
 
-- **express** ^4.18.2 - Web framework for Node.js
-- **cors** ^2.8.5 - Enable CORS for your API
+- **express** ^5.2.1 - Web framework for building APIs
+- **cors** ^2.8.6 - Enable CORS for cross-origin requests
 
 ## 📝 How It Works
 
 ### Backend Flow
 
-1. **Request Routing** - Incoming requests are matched to routes defined in the `routes/` directory
-2. **Path/Query Parameter Extraction** - Extract dynamic values from URLs (`/items/:id`) and query strings (`?filter=active`)
-3. **Controller Logic** - Business logic processes the request and determines response
-4. **Data Retrieval/Modification** - Read from or write to `data/items.json`
-5. **Response Sending** - Send appropriate status code, headers, and response body back to client
+1. **Request Arrives** - Client makes a request to an endpoint like `/api/startups/:id` or `/api/startups/filter`
+2. **Route Matching** - Express routes the request to the appropriate controller
+3. **Parameter Extraction** - Extract path parameters (`:id`) or query parameters (`?industry=...`)
+4. **Filtering Logic** - Controller filters the startup data based on extracted parameters
+5. **Response Sending** - Returns filtered data with appropriate status code and CORS headers
+6. **Client Receives** - Client gets the JSON response with startup information
 
 ### Example Request Flow
 
 ```
-Client Request
-    ↓
-Express Routes
-    ↓
-Controllers (Business Logic)
-    ↓
-Data Layer (Read/Write JSON)
-    ↓
-Response (Status Code + Data + Headers)
-    ↓
-Client
+Client: GET /api/startups/1
+  ↓
+Express Routes (apiRoutes.js)
+  ↓
+filerByParamsController (extracts id=1)
+  ↓
+Filters data/data.js for startup with id=1
+  ↓
+Sends JSON response with status 200
+  ↓
+Client receives startup data
 ```
 
 ## 💡 Key Concepts Learned
 
-- **HTTP Methods** - GET (retrieve), POST (create), PUT (update), DELETE (remove)
-- **Status Codes** - Understanding when to use 200, 201, 400, 404, 500, etc.
-- **Headers** - Setting Content-Type, CORS headers, and custom headers
-- **Route Parameters** - Dynamic segments in URLs like `/items/:id`
-- **Query Parameters** - Optional parameters in the URL like `?filter=active&limit=10`
-- **Middleware** - Functions that run before reaching route handlers
-- **Error Handling** - Graceful error responses for invalid requests
-- **RESTful Design** - Following REST conventions for API design
-- **CORS** - Managing cross-origin requests safely
+- **HTTP Methods** - Understanding GET requests for data retrieval
+- **Status Codes** - Using 200 for success, 404 for not found, 500 for errors
+- **Path Parameters** - Dynamic URL segments like `/startups/:id`
+- **Query Parameters** - Optional filtering parameters like `?industry=AI&country=US`
+- **Routing** - Organizing endpoints and mapping them to controllers
+- **Controllers** - Separating business logic from route definitions
+- **CORS** - Allowing requests from different origins/domains
+- **Data Structure** - Organizing and accessing large datasets
 
 ## 🌍 Testing Your API
 
-You can test your API using tools like:
-- **Postman** - GUI application for testing APIs
-- **cURL** - Command-line tool for making requests
-- **Thunder Client** - VS Code extension for API testing
+You can test your API using:
 
-Example with cURL:
+**cURL:**
 ```bash
-# GET all items
-curl http://localhost:3000/api/items
+# Get all startups
+curl http://localhost:8000/api/startups
 
-# GET item with ID 1
-curl http://localhost:3000/api/items/1
+# Get startup by ID
+curl http://localhost:8000/api/startups/1
 
-# POST a new item
-curl -X POST http://localhost:3000/api/items \
-  -H "Content-Type: application/json" \
-  -d '{"name":"New Item","description":"Test"}'
+# Filter by industry
+curl "http://localhost:8000/api/startups/filter?industry=Artificial%20Intelligence"
 
-# GET items with filter
-curl http://localhost:3000/api/items?filter=active&limit=5
+# Filter by country
+curl "http://localhost:8000/api/startups/filter?country=United%20States"
 ```
+
+**Postman or Thunder Client:**
+- Create GET requests to the endpoints listed above
+- Add query parameters in the params section
+- View formatted JSON responses
+
+## 🎓 Learning Outcomes
+
+After completing this project, you'll understand:
+- How to structure an Express.js API
+- How to work with route parameters and query strings
+- How to organize code with controllers and routes
+- How to filter and manipulate data
+- How CORS works and why it's important
+- How to return proper HTTP responses
 
 ---
 
